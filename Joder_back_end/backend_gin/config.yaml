@@ -1,2 +1,4 @@
 MODE: "debug"
 Port: 9090
+GOOGLE_SECRET_KEY: "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"
+GOOLE_CLIENT_ID: "1073100888552-5tgeog2v72fna1iojoa0oaua4d8777au.apps.googleusercontent.com"

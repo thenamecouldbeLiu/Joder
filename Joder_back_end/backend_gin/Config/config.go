@@ -8,25 +8,27 @@ import (
 )
 
 type Config struct {
-	Mode string `mapstructure:"MODE"`
-	Port string `mapstructure:"PORT"`
+	Mode            string `mapstructure:"MODE"`
+	Port            string `mapstructure:"PORT"`
+	GoogleSecretKey string `mapstructure:"GOOGLE_SECRET_KEY"`
+	GoogleClientId  string `mapstructure:"GOOLE_CLIENT_ID"`
 }
 
-var config Config
+var Val Config
 
 func Init() {
 	viper.SetConfigName("config.yaml")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
 	if err := viper.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("Fatal error config file: %v ", err))
+		panic(fmt.Errorf("fatal error config file: %v ", err))
 	}
 
-	if err := viper.Unmarshal(); err != nil {
+	if err := viper.Unmarshal(&Val); err != nil {
 		panic(fmt.Errorf("unable to decode into struct, %v", err))
 	}
 
 	log.WithFields(log.Fields{
-		"val": config,
+		"val": Val,
 	}).Info("config loaded")
 }

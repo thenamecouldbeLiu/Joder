@@ -2,9 +2,13 @@ package main
 
 import (
 	"errors"
-	"net/http"
+	"joder/config"
+	"joder/controller"
+	"joder/middleware"
 
 	"github.com/gin-gonic/gin"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var UserData map[string]string
@@ -30,15 +34,27 @@ func Auth(userName string, password string) error {
 	if isUserExist(userName) {
 		return checkPassWord(password, UserData[userName])
 	}
-	return errors.New("Not a existing User")
+	return errors.New("not a existing User")
+}
+
+func load() {
+	config.Init()
 }
 
 func main() {
+	load()
+	gin.SetMode(config.Val.Mode)
 	server := gin.Default()
-	server.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"msg": "test",
-		})
-	})
-	server.Run()
+	server.Use(middleware.CORS())
+	//API group for SSO
+	api := server.Group("/api")
+	{
+		api.GET("ouath/google/url", controller.GoogleAccess)
+		api.GET("ouath/google/login", controller.GoogleLogin)
+	}
+
+	server.GET("/getUserData", controller.GetUserData)
+	server.Run(":" + config.Val.Port)
+	log.Infof("serve port: %v \n", config.Val.Port)
+
 }
