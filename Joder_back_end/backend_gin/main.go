@@ -37,12 +37,8 @@ func Auth(userName string, password string) error {
 	return errors.New("not a existing User")
 }
 
-func load() {
-	config.Init()
-}
-
 func main() {
-	load()
+	config.Init()
 	gin.SetMode(config.Val.Mode)
 	server := gin.Default()
 	server.Use(middleware.CORS())
@@ -50,6 +46,7 @@ func main() {
 	api := server.Group("/api")
 	{
 		api.GET("ouath/google/url", controller.GoogleAccess)
+		api.GET("ouath/google/oauthUrl", controller.GetOauthUrl)
 		api.GET("ouath/google/login", controller.GoogleLogin)
 	}
 

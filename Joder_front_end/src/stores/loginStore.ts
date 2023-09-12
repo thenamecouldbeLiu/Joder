@@ -1,12 +1,9 @@
 import { ref, computed, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-
+import { type UserInfo } from '@/beans/userInfo';
 export const useLoginStore = defineStore('login', () => {
-  const userId:Ref<string> = ref("");
-  const checkLoginStatus = ():boolean=>{
-    // 用API 確認session是否還可使用
-    return true;
-  }
+  const userInfo:Ref<UserInfo|null> = ref(null);
+  const isLogin : Ref<boolean> = ref(false)
 
-  return { userId}
+  return { userInfo, isLogin}
 })
