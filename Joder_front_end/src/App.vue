@@ -1,38 +1,35 @@
-<script lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { useLoginStore } from './stores/loginStore'
-import { storeToRefs } from 'pinia'
-import BackGroundWrapperLeft from './components/commonComponets/BackGroundWrapperLeft.vue'
-import BackGroundWrapperRight from './components/commonComponets/BackGroundWrapperRight.vue'
-export default {
-  components: { BackGroundWrapperLeft, BackGroundWrapperRight },
-  setup() {
-    const loginStore = useLoginStore()
-    const { userInfo, isLogin } = storeToRefs(loginStore)
-
-    // expose to template and other options API hooks
-    return {
-      userInfo,
-      isLogin
-    }
-  },
-
-  mounted() {}
-}
-</script>
-
 <template>
-  <div class="col" style="background-color: bisque">
-    <back-ground-wrapper-left><slot></slot>></back-ground-wrapper-left>
-  </div>
-
-  <div class="col" style="background-color: rgb(250, 247, 247)">
-    <back-ground-wrapper-right><slot></slot>></back-ground-wrapper-right>
-  </div>
+  <v-app>
+    <v-container fluid>
+      <left-card v-if="isLogin"></left-card>
+      <v-main>
+        <v-row>
+          <v-col cols="11">
+            {{ isLogin }}
+            <router-view name="rightWrapper"> </router-view>
+          </v-col>
+        </v-row>
+      </v-main>
+    </v-container>
+  </v-app>
 </template>
 
-<style scoped>
-.col {
-  margin: 1%;
-}
-</style>
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { useLoginStore } from '@/stores/loginStore'
+import leftCard from '@/components/commonComponents/leftCard.vue'
+import { storeToRefs } from 'pinia'
+export default defineComponent({
+  name: 'App',
+  components: {
+    leftCard
+  },
+
+  setup() {
+    const userStore = useLoginStore()
+    const { userInfo, isLogin } = storeToRefs(userStore)
+
+    return { userInfo, isLogin }
+  }
+})
+</script>

@@ -4,8 +4,16 @@ export interface UserInfo{
     email: string;
     selfIntro: string;
     tags: Tag[];
-    pickedUser: UserInfo[];
-    matchedUser: UserInfo[];
+    pickedUser: OtherUser[];
+    matchedUser: OtherUser[];
+}
+
+interface OtherUser{
+    userId: string;
+    picUrl: string;
+    email: string;
+    selfIntro: string;
+    tags: Tag[];
 }
 
 export interface Tag{

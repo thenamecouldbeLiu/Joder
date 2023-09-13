@@ -6,7 +6,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component:  () => import('../views/HomeView.vue')
+      components:  {
+        leftWrapper:() => import('@/components/commonComponents/BackGroundWrapperLeft.vue'),
+        rightWrapper: () => import('@/components/commonComponents/BackGroundWrapperRight.vue')
+      }
     },
     {
       path: '/about',
