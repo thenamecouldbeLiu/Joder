@@ -1,6 +1,8 @@
 
 
-<template><div></div></template>
+<template>
+  <div><left-card /></div>
+</template>
 
 <script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
