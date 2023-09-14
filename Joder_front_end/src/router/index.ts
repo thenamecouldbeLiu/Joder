@@ -7,8 +7,8 @@ const router = createRouter({
       path: '/',
       name: 'home',
       components:  {
-        leftWrapper:() => import('@/components/commonComponents/BackGroundWrapperLeft.vue'),
-        rightWrapper: () => import('@/components/commonComponents/BackGroundWrapperRight.vue')
+        homeView: () => import('../views/HomeView.vue'),
+
       }
     },
     {
