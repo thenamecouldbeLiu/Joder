@@ -1,11 +1,16 @@
 
 
 <template>
+  <v-banner color="error"
+            icon="$vuetify"
+            lines="one"
+            text="Potential Candidates">
+
+  </v-banner>
   <div><left-card /></div>
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import { useLoginStore } from '@/stores/loginStore'
 import leftCard from './leftCard.vue'
 import { storeToRefs } from 'pinia'
