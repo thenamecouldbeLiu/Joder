@@ -8,7 +8,7 @@
 
   </v-banner>
   <v-container fluid
-               class="scrollable"> <v-layout fill-height><left-card /></v-layout></v-container>
+               class=""> <v-layout fill-height><left-card /></v-layout></v-container>
 </template>
 
 <script lang="ts">
