@@ -7,7 +7,8 @@
             text="Potential Candidates">
 
   </v-banner>
-  <div><left-card /></div>
+  <v-container fluid
+               class="scrollable"> <v-layout fill-height><left-card /></v-layout></v-container>
 </template>
 
 <script lang="ts">
@@ -32,5 +33,11 @@ export default {
 }
 </script>
   
-  <style scoped>
+<style scoped>
+.scrollable {
+  height: 80vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
 </style>
