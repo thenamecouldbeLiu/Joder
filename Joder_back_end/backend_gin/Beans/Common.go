@@ -1,7 +1,7 @@
 package beans
 
 type ResponseWrapper struct {
-	resultCode    string
-	resultMessage string
-	model         interface{}
+	ResultCode    string         `json:"resultCode"`
+	ResultMessage string         `json:"resultMessage"`
+	Model         map[string]any `json:"model"`
 }

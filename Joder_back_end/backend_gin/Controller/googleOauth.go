@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"io"
+	"joder/beans"
 	"joder/commonapi"
 	"joder/config"
 	"joder/jwt"
@@ -88,7 +89,7 @@ func GoogleLogin(c *gin.Context) {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
-		}).Debug("token err")
+		}).Info("token err")
 		c.Redirect(http.StatusFound, "/")
 		return
 	}
@@ -98,32 +99,28 @@ func GoogleLogin(c *gin.Context) {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"err": err,
-		}).Debug("user info err")
+		}).Info("user info err")
 		c.Redirect(http.StatusFound, "/")
 		return
 	}
 	fmt.Printf("id: %v, name: %v, email: %v \n", id, name, email)
 
-	log.WithFields(log.Fields{
-		"name": name,
-	}).Info("G name \n")
-
 	jwtToken, err := jwt.GenerateJWT(id)
-	fmt.Printf("COOKIEKEY: %v, TOKEN: %v \n", config.Val.COOKIE_KEY, jwtToken)
+
 	if err != nil {
 		fmt.Printf("err happend %v\n", err)
 		log.WithFields(log.Fields{
 			"err": err,
-		}).Debug("GenerateToken error \n")
+		}).Info("GenerateToken error \n")
 		return
 	}
 
 	c.SetCookie(config.Val.COOKIE_KEY, jwtToken, int(config.Val.JWT_TOKEN_LIFE), "/api/ouath/google/oauthUrl", "localhost", false, true)
 
+	model := make(map[string]any)
+	res := beans.ResponseWrapper{ResultCode: "0000", ResultMessage: "", Model: model}
+	c.JSON(200, res)
+
 	c.Redirect(http.StatusFound, "http://localhost:5173/")
-	commonapi.Success(c, gin.H{
-		"id":    id,
-		"name":  name,
-		"email": email,
-	})
+
 }
