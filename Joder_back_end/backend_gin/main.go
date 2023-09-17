@@ -39,6 +39,7 @@ func Auth(userName string, password string) error {
 
 func main() {
 	config.Init()
+	log.Info("START SERVER")
 	gin.SetMode(config.Val.Mode)
 	server := gin.Default()
 	server.Use(middleware.CORS())

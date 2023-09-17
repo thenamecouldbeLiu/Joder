@@ -5,6 +5,7 @@ import (
 	"io"
 	"joder/commonapi"
 	"joder/config"
+	"joder/jwt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -101,5 +102,28 @@ func GoogleLogin(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/")
 		return
 	}
-	fmt.Printf("id: %v, name: %v, email: %v", id, name, email)
+	fmt.Printf("id: %v, name: %v, email: %v \n", id, name, email)
+
+	log.WithFields(log.Fields{
+		"name": name,
+	}).Info("G name \n")
+
+	jwtToken, err := jwt.GenerateJWT(id)
+	fmt.Printf("COOKIEKEY: %v, TOKEN: %v \n", config.Val.COOKIE_KEY, jwtToken)
+	if err != nil {
+		fmt.Printf("err happend %v\n", err)
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Debug("GenerateToken error \n")
+		return
+	}
+
+	c.SetCookie(config.Val.COOKIE_KEY, jwtToken, int(config.Val.JWT_TOKEN_LIFE), "/api/ouath/google/oauthUrl", "localhost", false, true)
+
+	c.Redirect(http.StatusFound, "http://localhost:5173/")
+	commonapi.Success(c, gin.H{
+		"id":    id,
+		"name":  name,
+		"email": email,
+	})
 }

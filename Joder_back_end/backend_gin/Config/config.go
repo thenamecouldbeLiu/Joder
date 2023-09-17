@@ -12,6 +12,9 @@ type Config struct {
 	Port            string `mapstructure:"PORT"`
 	GoogleSecretKey string `mapstructure:"GOOGLE_SECRET_KEY"`
 	GoogleClientId  string `mapstructure:"GOOLE_CLIENT_ID"`
+	JWT_TOKEN_LIFE  int64  `mapstructure:"JWT_TOKEN_LIFE"`
+	JWT_KEY         string `mapstructure:"JWT_KEY"`
+	COOKIE_KEY      string `mapstructure:"COOKIE_KEY"`
 }
 
 var Val Config

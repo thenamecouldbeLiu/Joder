@@ -8,11 +8,11 @@
 
   </v-banner>
   <v-container fluid
-               class=""> <v-layout fill-height><left-card /></v-layout></v-container>
+               class="scrollable"> <v-layout fill-height><left-card /></v-layout></v-container>
 </template>
 
 <script lang="ts">
-import { useLoginStore } from '@/stores/loginStore'
+import { useLoginStore } from '../../stores/loginStore'
 import leftCard from './leftCard.vue'
 import { storeToRefs } from 'pinia'
 export default {
@@ -33,11 +33,5 @@ export default {
 }
 </script>
   
-<style scoped>
-.scrollable {
-  height: 80vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  text-align: center;
-}
+<style >
 </style>

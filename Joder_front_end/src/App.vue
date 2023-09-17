@@ -1,18 +1,18 @@
 <template>
   <v-app>
-    <router-view name="homeView"> </router-view>
+    <router-view> </router-view>
   </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useLoginStore } from '@/stores/loginStore'
+import { useLoginStore } from './stores/loginStore'
 import { storeToRefs } from 'pinia'
+import { useTheme } from 'vuetify'
+
 export default defineComponent({
   name: 'App',
-  components: {
-    //leftCard
-  },
+  components: {},
 
   setup() {
     const userStore = useLoginStore()

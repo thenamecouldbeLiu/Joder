@@ -10,7 +10,7 @@ import { loadFonts } from './plugins/webfontloader'
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
-
+import '@/assets/global.scss'
 loadFonts()
 const vuetify = createVuetify({
   components,
