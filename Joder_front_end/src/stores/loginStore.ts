@@ -2,7 +2,6 @@ import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { type User, type MainUser } from '@/beans/userInfo'
 
-
 export const useLoginStore = defineStore('login', () => {
   const testOtherUser: User = {
     userId: '00002',
@@ -10,7 +9,7 @@ export const useLoginStore = defineStore('login', () => {
     picUrl: 'https://randomuser.me/api/portraits/women/85.jpg',
     email: 'testOther@gmail.com',
     selfIntro: 'testOtherIntro',
-    tags: [{content:'software'}]
+    tags: [{ content: 'software' }]
   }
 
   const testUser: MainUser = {
@@ -19,14 +18,13 @@ export const useLoginStore = defineStore('login', () => {
     picUrl: 'https://randomuser.me/api/portraits/women/85.jpg',
     email: 'test@gmail.com',
     selfIntro: 'testIntro',
-    tags: [{content:'hunter'}],
+    tags: [{ content: 'hunter' }],
     pickedUser: [],
     matchedUser: []
   }
 
   const userInfo: Ref<MainUser | null> = ref(testUser)
-  const isLogin: Ref<boolean> = ref(true)
-  
+  const isLogin: boolean = false
 
   return { userInfo, isLogin, testUser, testOtherUser }
 })

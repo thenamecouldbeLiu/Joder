@@ -21,7 +21,6 @@ func main() {
 	api := server.Group("/api")
 	{
 		api.GET("ouath/google/url", controller.GoogleAccess)
-		api.GET("ouath/google/oauthUrl", controller.GetOauthUrl)
 		api.GET("ouath/google/login", controller.GoogleLogin)
 	}
 

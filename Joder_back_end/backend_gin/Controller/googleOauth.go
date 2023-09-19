@@ -16,20 +16,13 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-const redirectURL = "http://localhost:9090/api/ouath/google/login"
+const redirectURL = "http://localhost:5173/"
 const scope = "https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email"
 
 func oauthUrl() string {
 	link := "https://accounts.google.com/o/oauth2/v2/auth?client_id=%s&response_type=code&scope=%s&redirect_uri=%s"
 
 	return fmt.Sprintf(link, config.Val.GoogleClientId, scope, redirectURL)
-}
-
-func GetOauthUrl(c *gin.Context) {
-
-	url := oauthUrl()
-
-	c.String(200, url)
 }
 
 func accessToken(code string) (token string, err error) {

@@ -1,6 +1,7 @@
-import { useLoginStore } from './../stores/loginStore'
-import { createRouter, createWebHistory } from 'vue-router'
 
+import { useLoginStore } from './../stores/loginStore'
+import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
+let userStore: any = null
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,5 +20,19 @@ const router = createRouter({
     }
   ]
 })
+
+/*之後再修
+router.beforeEach((to: RouteLocationNormalized) => {
+  if (userStore === null){
+     userStore = useLoginStore()
+  }
+  
+  console.log(userStore.isLogin)
+  if (!userStore.isLogin && to.path != '/login') {
+    return { name: 'LoginPage' }
+  }
+  console.log(userStore.isLogin)
+})*/ 
+
 
 export default router
