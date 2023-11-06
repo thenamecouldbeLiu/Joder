@@ -1,6 +1,9 @@
 {
   "files": [],
   "compilerOptions": {
+    "types": [
+      "pinia-plugin-persist"
+    ],
     "baseUrl": ".",
     "paths": {
       "@src": ["src"],

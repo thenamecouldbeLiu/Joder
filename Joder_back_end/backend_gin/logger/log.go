@@ -32,7 +32,7 @@ func NewLogger() *log.Logger {
 	return Logger
 }
 
-func Init() {
+func init() {
 	//log輸出為json格式
 	//log.SetFormatter(&log.JSONFormatter{})
 	//輸出設定為標準輸出(預設為stderr)

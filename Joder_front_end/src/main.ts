@@ -11,13 +11,12 @@ import { loadFonts } from './plugins/webfontloader'
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
 import '@/assets/global.scss'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 loadFonts()
 const vuetify = createVuetify({
   components,
-  directives,
+  directives
 })
-createApp(App)
-  .use(router)
-  .use(vuetify)
-  .use(createPinia())
-  .mount('#app')
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+createApp(App).use(router).use(vuetify).use(pinia).mount('#app')

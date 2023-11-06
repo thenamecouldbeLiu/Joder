@@ -3,10 +3,10 @@ package controller
 import (
 	"fmt"
 	"io"
-	"joder/beans"
+
+	"joder/client_jwt"
 	"joder/commonapi"
 	"joder/config"
-	"joder/jwt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -16,11 +16,11 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-const redirectURL = "http://localhost:5173/"
+const redirectURL = "http://localhost:9090/api/ouath/google/login"
 const scope = "https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email"
 
 func oauthUrl() string {
-	link := "https://accounts.google.com/o/oauth2/v2/auth?client_id=%s&response_type=code&scope=%s&redirect_uri=%s"
+	const link = "https://accounts.google.com/o/oauth2/v2/auth?client_id=%s&response_type=code&scope=%s&redirect_uri=%s"
 
 	return fmt.Sprintf(link, config.Val.GoogleClientId, scope, redirectURL)
 }
@@ -72,7 +72,7 @@ func getGoogleUserInfo(token string) (id string, name string, email string, err 
 func GoogleAccess(c *gin.Context) {
 	commonapi.Success(c, gin.H{
 		"url": oauthUrl(),
-	})
+	}, "")
 }
 
 func GoogleLogin(c *gin.Context) {
@@ -83,7 +83,7 @@ func GoogleLogin(c *gin.Context) {
 		log.WithFields(log.Fields{
 			"err": err,
 		}).Info("token err")
-		c.Redirect(http.StatusFound, "/")
+		c.Redirect(http.StatusFound, "http://localhost:5173/login")
 		return
 	}
 
@@ -97,8 +97,15 @@ func GoogleLogin(c *gin.Context) {
 		return
 	}
 	fmt.Printf("id: %v, name: %v, email: %v \n", id, name, email)
+	_, rows := QueryUser(c, id)
 
-	jwtToken, err := jwt.GenerateJWT(id)
+	//如果有找到user就導入首頁, 否則回傳訊息進入sign up環節
+	if rows == 0 {
+		c.SetCookie("googleId", id, 6000, "/", "localhost", false, true)
+		c.Redirect(http.StatusFound, "http://localhost:5173/signUp")
+		return
+	}
+	jwtToken, err := client_jwt.GenerateJWT(id)
 
 	if err != nil {
 		fmt.Printf("err happend %v\n", err)
@@ -107,12 +114,7 @@ func GoogleLogin(c *gin.Context) {
 		}).Info("GenerateToken error \n")
 		return
 	}
-
-	c.SetCookie(config.Val.COOKIE_KEY, jwtToken, int(config.Val.JWT_TOKEN_LIFE), "/api/ouath/google/oauthUrl", "localhost", false, true)
-
-	model := make(map[string]any)
-	res := beans.ResponseWrapper{ResultCode: "0000", ResultMessage: "", Model: model}
-	c.JSON(200, res)
+	c.SetCookie(client_jwt.Token_name, jwtToken, int(config.Val.JWT_TOKEN_LIFE), "/", "localhost", false, false)
 
 	c.Redirect(http.StatusFound, "http://localhost:5173/")
 

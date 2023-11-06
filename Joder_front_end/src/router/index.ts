@@ -1,4 +1,4 @@
-
+import Cookies from 'js-cookie'
 import { useLoginStore } from './../stores/loginStore'
 import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
 let userStore: any = null
@@ -17,22 +17,26 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/LoginView.vue')
+    },
+    {
+      path: '/signUp',
+      name: 'SignUp',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/SignUpView.vue')
     }
   ]
 })
 
-/*之後再修
 router.beforeEach((to: RouteLocationNormalized) => {
-  if (userStore === null){
-     userStore = useLoginStore()
+  if (userStore === null) {
+    userStore = useLoginStore()
   }
-  
-  console.log(userStore.isLogin)
-  if (!userStore.isLogin && to.path != '/login') {
+
+  if (!Cookies.get('joder_token') && to.path != '/login' && to.path != '/signUp') {
     return { name: 'LoginPage' }
   }
-  console.log(userStore.isLogin)
-})*/ 
-
+})
 
 export default router
